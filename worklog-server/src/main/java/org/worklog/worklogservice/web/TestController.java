@@ -22,7 +22,7 @@ public class TestController {
 	}
 	
 	@GetMapping("/staff")
-	public Staff getStaff(@RequestParam Long id) {
+	public StaffDTO getStaff(@RequestParam Long id) {
 		StaffDTO s = service.getById(id);
 		return s;
 	}
