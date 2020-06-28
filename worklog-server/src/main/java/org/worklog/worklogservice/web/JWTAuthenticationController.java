@@ -48,9 +48,9 @@ public class JWTAuthenticationController {
 	private StaffService staffService;
 
 	/**
-	 * @param authenticationRequest
-	 * @return
-	 * @throws Exception
+	 * @param authenticationRequest authenticate information (user name and password).
+	 * @return User information along with the token and the message info otherwise we send back the message error.
+	 * @throws Exception Handle Invalid Credentials and other Errors.
 	 */
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
@@ -70,9 +70,9 @@ public class JWTAuthenticationController {
 	}
 
 	/**
-	 * @param registrationBean
-	 * @return
-	 */
+	 * @param registrationBean User information to sign up.
+	 * @return a ResponseEntity indicating the registration status
+	 */ 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<String> register(@RequestBody StaffDTO registrationBean) {
 		if (staffService.register(registrationBean) != null) {
@@ -86,7 +86,8 @@ public class JWTAuthenticationController {
 	/**
 	 * @param username
 	 * @param password
-	 * @throws Exception
+	 * @throws Exception InvalidCredential
+	 * @throws Exception DisabledUser
 	 */
 	private void authenticate(String username, String password) throws Exception {
 		try {
