@@ -6,3 +6,7 @@
     color: #44318D;
     /* Set the fixed height of the footer here */
 }
+
+.text-center {
+    cursor: default;
+}

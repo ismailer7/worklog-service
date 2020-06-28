@@ -34,18 +34,6 @@ class Authentication extends Component {
         event.preventDefault();
         AuthenticationService.authenticate(this.state.username, this.state.password) 
                         .then( response => {
-                            if(response['status'] === 200) {
-                                this.setState({
-                                    token: response['token'],
-                                    username: response['username'],
-                                    message: response['message']
-                                })
-                            } else {
-                                this.setState({
-                                    username: response['username'],
-                                    message: response['message']
-                                })
-                            }
                             console.log(response)
                         })
     }
@@ -58,6 +46,11 @@ class Authentication extends Component {
                     <form id="loginForm" onSubmit={this.handleSubmit}>
 		                <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
     	                    <h4 class="modal-title">Login to Your Account</h4>
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <strong>Attention!</strong> Invalid Credentials.
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            </div>
+
                         <div class="form-group">
                             <input type="text" class="form-control" defaultValue={this.state.username} onChange={this.handleChangeUsername} placeholder="Username" required="required" />
                         </div>
