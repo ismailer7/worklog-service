@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Link} from 'react-router-dom';
 import './static/index.css';
 import AuthenticationService from '../../service/AuthenticationSerivce';
+import Footer from '../Footer/Footer';
 class Authentication extends Component {
 
     constructor(props) {
@@ -52,6 +53,7 @@ class Authentication extends Component {
       render() {
         // const errorMsg = this.state.errorMessage
             return (
+                <div>
                 <div class="login-form">    
                     <form id="loginForm" onSubmit={this.handleSubmit}>
 		                <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
@@ -69,6 +71,8 @@ class Authentication extends Component {
                         <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login" />              
                     </form>			
                     <div class="text-center small">Don't have an account? <Link to={'/register'}><a href="#">Sign up</a></Link></div>
+                </div>
+                <Footer />
                 </div>
             )
         }
