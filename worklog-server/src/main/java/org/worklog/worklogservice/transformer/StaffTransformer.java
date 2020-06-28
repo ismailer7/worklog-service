@@ -3,15 +3,15 @@ package org.worklog.worklogservice.transformer;
 import java.util.HashSet;
 
 import org.springframework.stereotype.Component;
-import org.worklog.worklogservice.bean.StaffDto;
+import org.worklog.worklogservice.bean.StaffDTO;
 import org.worklog.worklogservice.domain.Staff;
 import org.worklog.worklogservice.domain.Work;
 
 @Component
-public class StaffTransformer extends Transformer<Staff, StaffDto> {
+public class StaffTransformer extends Transformer<Staff, StaffDTO> {
 
 	@Override
-	public Staff toEntity(StaffDto d) {
+	public Staff toEntity(StaffDTO d) {
 		Staff staff = new Staff();
 		staff.setUsername(d.getUsername());
 		staff.setPassword(d.getPassword());
@@ -24,8 +24,8 @@ public class StaffTransformer extends Transformer<Staff, StaffDto> {
 	}
 
 	@Override
-	public StaffDto toDTO(Staff e) {
-		StaffDto staffDTO = new StaffDto();
+	public StaffDTO toDTO(Staff e) {
+		StaffDTO staffDTO = new StaffDTO();
 		staffDTO.setUsername(e.getUsername());
 		staffDTO.setPassword(e.getPassword());
 		staffDTO.setEmail(e.getEmail());
