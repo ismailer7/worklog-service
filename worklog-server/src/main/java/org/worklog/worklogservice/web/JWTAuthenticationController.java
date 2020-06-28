@@ -1,5 +1,6 @@
 package org.worklog.worklogservice.web;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,6 @@ import org.worklog.worklogservice.config.JwtTokenConfig;
 import org.worklog.worklogservice.service.JwtUserDetailsService;
 import org.worklog.worklogservice.service.StaffService;
 
-
 /**
  * 
  * @author ir07
@@ -33,6 +33,8 @@ public class JWTAuthenticationController {
 	/*
 	 * Controller for handling Authentication and User Registration.
 	 */
+	private static final Logger LOGGER = Logger.getLogger(JWTAuthenticationController.class);
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -51,17 +53,22 @@ public class JWTAuthenticationController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+	public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
+			throws Exception {
 		try {
 			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 			final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 			final String token = jwtTokenConfig.generateToken(userDetails);
+			LOGGER.info(String.format("Success Authentication for username [%s] and password [%s] -> Generated Token [%s]",
+					authenticationRequest.getUsername(), authenticationRequest.getPassword(), token));
 			return ResponseEntity.ok(new JwtResponse(token, "Authenticated Successfully!", userDetails));
 		} catch (Exception e) {
+			LOGGER.error(String.format("Failed Authentication for username [%s] and password [%s].",
+					authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 			return new ResponseEntity<JwtResponse>(new JwtResponse(null, e.getMessage(), null), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	/**
 	 * @param registrationBean
 	 * @return
@@ -69,17 +76,18 @@ public class JWTAuthenticationController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<String> register(@RequestBody StaffDTO registrationBean) {
 		if (staffService.register(registrationBean) != null) {
+			LOGGER.info(String.format("Registration process success for user [%s]!", registrationBean.getUsername()));
 			return new ResponseEntity<String>("Registration Done Successfully!", HttpStatus.OK);
 		}
+		LOGGER.info(String.format("Registration failed for user [%s]", registrationBean.getUsername()));
 		return new ResponseEntity<String>("Cannot Perform the Registration!", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 	/**
-	 * @param username 
+	 * @param username
 	 * @param password
 	 * @throws Exception
 	 */
-	
 	private void authenticate(String username, String password) throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
