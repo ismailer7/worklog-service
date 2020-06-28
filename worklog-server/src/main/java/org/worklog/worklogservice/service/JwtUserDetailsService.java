@@ -19,12 +19,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// we will call repository to fetch database rather than hard coding it.
-
 		Optional<Staff> staffOptional = staffReposiotry.findByUsername(username);
-		Staff staff = staffOptional.get();
 		
-		if (staff != null) {
+		if(staffOptional.isPresent()) {
+			Staff staff = staffOptional.get();
 			return new UserDetailsImpl(staff);
 		} else {
 			throw new UsernameNotFoundException("User not found with username: " + username);
