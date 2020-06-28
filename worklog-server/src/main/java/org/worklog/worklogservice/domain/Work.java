@@ -37,7 +37,7 @@ public class Work {
 	private double timeLeft; // ETC
 
 	@Column
-	private Date loggedTime; // how much logged
+	private Double loggedTime; // how much logged
 
 	@Column
 	private Date logAction; // when the log happens

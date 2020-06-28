@@ -21,6 +21,8 @@ public class JwtTokenConfig {
 	@Value("${json.web.token.secret}")
 	private String secret;
 
+	// see this https://medium.com/fullstackblog/spring-security-jwt-token-expired-custom-response-b85437914b81
+	
 	// retrieve username from jwt token
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
