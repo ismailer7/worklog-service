@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Login from './component/Login.js';
+import Authentication from './component/Authentication/Authentication.js';
 import './App.css';
 
 
@@ -9,10 +9,9 @@ class App extends Component {
   
   render() {
     return (
-      <Login />
+      <Authentication />
     )
   }
-
 
 }
 
