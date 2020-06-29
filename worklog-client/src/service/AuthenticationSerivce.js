@@ -14,16 +14,31 @@ const AuthenticationService = {
                 "password": password
             })
           })
-          .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                return data
-            })
+          .then(response => response.json())
+          .then(data => data)
         },
 
     register : (data) => {
-        console.log(registrationEndPoint);
+        return fetch(registrationEndPoint, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+              }),
+            body: JSON.stringify({
+                "username": data['username'],
+                "password": data['password'],
+                "email": data['email'],
+                "active": true,
+                "role": "USER_ROLE" // default
+            })
+        })
+        .then( response => response.text())
+        .then(data => {
+            return data
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 }
 
